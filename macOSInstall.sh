@@ -118,8 +118,8 @@ if [[ $* == *--pt2* ]]; then
     cd ~/
 
     #Python shit
-    pip install ipython scipy flake8 autoflake scikit-learn
-
+    pip install ipython scipy flake8 autoflake scikit-learn yapf
+    pip install numpy-quaternion cvxopt
     echo 'Whew. All done now'
 
 fi

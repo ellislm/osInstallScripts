@@ -1,0 +1,18 @@
+g++ 
+cmake
+cmake-curses-gui
+cmake-qt-gui 
+doxygen
+mpi-default-dev
+openmpi-bin
+openmpi-common
+libflann*
+vim-gtk
+vlc
+libarmadillo*
+libcgal-dev libcgal-qt* libeigen3-dev libboost-all-dev libvtk6* libqhull* libusb-dev install libgtest-dev git-core freeglut3-dev pkg-config build-essential libxmu-dev
+libxi-dev libusb-1.0-0-dev graphviz mono-complete qt-sdk openjdk-8-jdk openjdk-8-jre screen byobu python-pip python-dev python-wstool libgsl-dev python-pip ntpdate texmaker vim vim-gtk
+ant protobuf-compiler libeigen3-dev libopencv-dev openjdk-8-jdk openjdk-8-jre clang-3.5 lldb-3.5 exuberant-ctags libclang-dev xz-utils libpthread-workqueue-dev liblua5.2-dev lua5.2 libncurses-dev
+the_silver_searcher ctags openssh-server
+python-argparse git-core wget zip python-empy qtcreator cmake build-essential genromfs g++-4.9
+htop
