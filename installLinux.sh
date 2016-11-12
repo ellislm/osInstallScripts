@@ -2,12 +2,12 @@
 echo "here we go..."
 numcores="$(nproc)"
 #some basics:
-sudo apt-get install -y git xclip chromium-browser flashplugin-installer curl
+sudo apt-get install -y --ignore-missing git xclip chromium-browser flashplugin-installer curl
 
-sudo apt-get install -y g++ cmake cmake-gui doxygen mpi-default-dev openmpi-bin openmpi-common  libflann1 libflann-dev vim-gtk vlc libarmadillo-dev libcgal-dev libcgal-qt5-dev
-sudo apt-get install -y libeigen3-dev libboost-all-dev libvtk6.2-qt libvtk6.2 libvtk6-dev libqhull*
-sudo apt-get install -y libusb-dev install libgtest-dev git-core freeglut3-dev pkg-config build-essential libxmu-dev libxi-dev libusb-1.0-0-dev graphviz mono-complete
-sudo apt-get install -y qt-sdk openjdk-8-jdk openjdk-8-jre screen byobu python-pip python-dev python-wstool libgsl-dev python-pip ntpdate texmaker
+sudo apt-get install -y --ignore-missing g++ cmake cmake-curses-gui cmake-qt-gui doxygen mpi-default-dev openmpi-bin openmpi-common  libflann* libflann-dev vim-gtk vlc libarmadillo-dev libcgal-dev libcgal-qt5-dev
+sudo apt-get install -y --ignore-missing libeigen3-dev libboost-all-dev libvtk6.2-qt libvtk6.2 libvtk6-dev libqhull*
+sudo apt-get install -y --ignore-missing  libusb-dev install libgtest-dev git-core freeglut3-dev pkg-config build-essential libxmu-dev libxi-dev libusb-1.0-0-dev graphviz mono-complete
+sudo apt-get install -y --ignore-missing qt-sdk openjdk-8-jdk openjdk-8-jre screen byobu python-pip python-dev python-wstool libgsl-dev python-pip ntpdate texmaker vim vim-gtk
 
 if [ ! -f ~/.ssh/id_rsa.pub ]; then
 ssh-keygen -t rsa -b 4096 -C "logan_ellis@me.com"
@@ -48,7 +48,7 @@ mkdir release
 cd release
 cmake -DCMAKE_BUILD_TYPE=None ..
 echo 'SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")' >> ~/pcl/CMakeLists.txt
-make -j$(numcores) && sudo make install -j$(numcores)
+make -j$numcores && sudo make install -j$numcores
 
 #Delete vim and recompile from source
 #sudo apt-get install -y libncurses5-dev libgnome2-dev libgnomeui-dev \
@@ -85,12 +85,12 @@ make -j$(numcores) && sudo make install -j$(numcores)
 sudo apt install -y exuberant-ctags
 
 #All dat Vim Goodness
-if [ ! -d ~/fzf]; then
+if [[ ! -d ~/fzf ]]; then
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 sudo ~/.fzf/install
 fi
 
-if [ ! -d ~/vimfiles]; then
+if [[ ! -d ~/vimfiles ]]; then
 git clone https://www.github.com/logane/vimfiles
 ln -s vimfiles ~/.vim
 fi
@@ -102,7 +102,7 @@ cd ~/.vim/plugged/YouCompleteMe
 cd ~/
 
 #For color coded
-sudo apt-get install -y libclang-dev xz-utils libpthread-workqueue-dev liblua5.2-dev lua5.2 libncurses-dev
+sudo apt-get install -y --ignore-missing libclang-dev xz-utils libpthread-workqueue-dev liblua5.2-dev lua5.2 libncurses-dev
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt-get update
 sudo apt-get install -y g++-4.9
@@ -110,7 +110,7 @@ sudo apt-get install -y g++-4.9
 cd ~/.vim/plugged/color_coded
 mkdir build && cd build
 cmake ..
-make -j$(numcores) && sudo make -j$(numcores) install 
+make -j$numcores && sudo make -j$numcores install 
 make clean && make clean_clang
 #end color_coded
 
@@ -118,18 +118,18 @@ make clean && make clean_clang
 sudo usermod -a -G dialout $USER
 sudo add-apt-repository ppa:george-edison55/cmake-3.x -y
 sudo apt-get update
-sudo apt-get install -y python-argparse git-core wget zip \
+sudo apt-get install -y --ignore-missing python-argparse git-core wget zip \
 python-empy qtcreator cmake build-essential genromfs -y
 
 
 # simulation tools
-sudo apt-get install -y ant protobuf-compiler libeigen3-dev libopencv-dev openjdk-8-jdk openjdk-8-jre clang-3.5 lldb-3.5 -y
+sudo apt-get install -y --ignore-missing ant protobuf-compiler libeigen3-dev libopencv-dev openjdk-8-jdk openjdk-8-jre clang-3.5 lldb-3.5 -y
 sudo apt-get remove modemmanager
 
 #Sphinx for docs
 pip install sphinx sphinx-autobuild
 
-cp ~/osInstall/tmux.conf ~/.byobu/.tmux.conf
-cp ~/osInstall/bash_aliases ~/.bash_aliases
+cp ~/osInstallScripts/tmux.conf ~/.byobu/.tmux.conf
+cp ~/osInstallScripts/bash_aliases ~/.bash_aliases
 echo "source ~/.bash_aliases" >> ~/.bashrc
 
