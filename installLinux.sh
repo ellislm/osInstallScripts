@@ -1,4 +1,4 @@
-#!/bin/bash
+
 echo "here we go..."
 numcores="$(nproc)"
 #some basics:
@@ -9,11 +9,11 @@ sudo apt-get install -y libeigen3-dev libboost-all-dev libvtk6.2-qt libvtk6.2 li
 sudo apt-get install -y libusb-dev install libgtest-dev git-core freeglut3-dev pkg-config build-essential libxmu-dev libxi-dev libusb-1.0-0-dev graphviz mono-complete
 sudo apt-get install -y qt-sdk openjdk-8-jdk openjdk-8-jre screen byobu python-pip python-dev python-wstool libgsl-dev python-pip ntpdate texmaker
 
-if [ ! -d ~/.ssh/ ]; then
+if [ ! -f ~/.ssh/id_rsa.pub ]; then
 ssh-keygen -t rsa -b 4096 -C "logan_ellis@me.com"
 ssh-add ~/.ssh/id_rsa
 xclip -sel clip < ~/.ssh/id_rsa.pub
-read -n1 -rsp "Go to github, and pase SSH key. Press space to continue install..." key
+read -n1 -rsp "Go to github, and paste SSH key. Press space to continue install..." key
 fi
 
 if [ ! -d ~/Dropbox/ ]; then
@@ -25,7 +25,6 @@ cd ~/
 read -n1 -rsp "Make sure DropBox is installed. Press space to continue..." key
 fi
 
-git clone http://www.github.com/logane/osInstall
 
 #Ros Install
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -47,8 +46,8 @@ git clone https://github.com/PointCloudLibrary/pcl.git
 cd ~/pcl
 mkdir release
 cd release
-cmake -DCMAKE_BUILD_TYPE=None -DBUILD_GPU=ON -DBUILD_apps=ON -DBUILD_examples=ON ..
-echo "SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")" >> ~/pcl/CMakeLists.txt
+cmake -DCMAKE_BUILD_TYPE=None ..
+echo 'SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")' >> ~/pcl/CMakeLists.txt
 make -j$(numcores) && sudo make install -j$(numcores)
 
 #Delete vim and recompile from source

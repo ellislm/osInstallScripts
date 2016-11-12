@@ -1,21 +1,26 @@
 #Start ROS Install
 #curl https://raw.githubusercontent.com/mikepurvis/ros-install-osx/master/install | bash
 #End ROS
-
+if [[ ! $* *--pt2* ]]
+read -n1 -rsp "Before we get started, make sure XCode is installed. Also install XQuarts, relog, and run again. Press space when it is" key
 git config --global user.email "logan_ellis@me.com"
 git config --global user.name "loganE"
 
 if [[ ! -f ~/.ssh/id_rsa.pub ]]; then
 ssh-keygen -t rsa -b 4096 -C "logan_ellis@me.com"
-
-echo "Go ahead and add your SSH to github, then type Yes to continue"
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) make install; break;;
-        No ) exit;;
-    esac
-done
 fi
+
+read -n1 -rsp "Go to github, and paste SSH key. Press space to continue install..." key
+
+echo "Installing ROS Now"
+cd ~/
+
+if [[ ! -d ~/ros-install-osx ]]; then
+git clone http://www.github.com/loganE/ros-install-osx
+fi
+cd ros-install-osx
+
+chmod +x install && ./install
 
 #Vimfiles
 echo 'Installing Vim'
@@ -30,14 +35,17 @@ brew install fzf
 echo '[ -f ~/.fzf.bash ] && source ~/.fzf.bash' >> ~/.bash_profile
 
 brew update && brew tap jlhonora/lsusb
-brew install lsusb arp-scan
+brew install lsusb arp-scan byobu
 
-if [ ! -d ~/vimfiles/ ]; then
-	cd ~/ && git clone http://www.github.com/logane/vimfiles
-	ln -s ~/vimfiles/ ~/.vim
+  if [ ! -d ~/vimfiles/ ]; then
+    cd ~/ && git clone http://www.github.com/logane/vimfiles
+    ln -s ~/vimfiles/ ~/.vim
+  fi
+echo "Go ahead and close iterm completely. Open a new window of iterm, then run ./macInstall.sh --pt2"
+exit 1
 fi
 
-reset
+if [[ $* == *--pt2* ]]; then
 vim -c "PlugInstall" +qall
 
 echo 'Compiling YCM and Color Coded'
@@ -53,11 +61,17 @@ make && make install
 cp ~/vimfiles/_fonts/* /Library/Fonts
 
 echo 'if [ -f ~/.bashrc ]; then . ~/.bashrc; fi' >> ~/.bash_profile
-echo "alias la='ls -a'">> ~/.bash_profile
 echo 'source ~/ros_catkin_ws/install_isolated/setup.bash' >> ~/.bash_profile
 ln -s ~/Dropbox/sandbox/ ~/sandbox
 ln -s ~/Dropbox/Homework ~/hw
-ln -s ~/Dropbox/bashrc ~/.bashrc
+
+if [[ -d ~/.byobu ]]; then
+  mkdir ~/.byobu
+fi
+
+cp ~/osInstallScripts/tmux.conf ~/.byobu/.tmux.conf
+cp ~/osInstallScripts/bash_aliases ~/.bash_aliases
+echo "source ~/.bash_aliases" >> ~/.bash_profile
 
 #PX4 Install
 brew tap PX4/homebrew-px4
@@ -68,10 +82,12 @@ brew install astyle ninja
 brew install ant graphviz sdformat3 rotobuf
 brew install cgal --with-imaging
 pip install empy pyserial
-#to mount 
+#to mount
 brew tap homebrew/fuse
 brew install homebrew/fuse/osxfuse
 brew install homebrew/fuse/ext4fuse
+fi
+
 echo 'Whew. All done now'
 
 #QGround Control
@@ -81,3 +97,5 @@ echo 'Whew. All done now'
 #caffeine
 #http://www.silabs.com/Support%20Documents/Software/Mac_OSX_VCP_Driver.zip
 #
+
+
