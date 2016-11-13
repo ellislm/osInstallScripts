@@ -16,15 +16,6 @@ xclip -sel clip < ~/.ssh/id_rsa.pub
 read -n1 -rsp "Go to github, and paste SSH key. Press space to continue install..." key
 fi
 
-if [ ! -d ~/Dropbox/ ]; then
-echo "Now Dropbox"
-cd Downloads
-wget https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb
-sudo dpkg -i dropbox_2015.10.28_amd64.deb
-cd ~/
-read -n1 -rsp "Make sure DropBox is installed. Press space to continue..." key
-fi
-
 
 #Ros Install
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -42,13 +33,13 @@ sudo apt-get install -y python-rosinstall
 sudo apt-get install -y ros-kinetic-control-toolbox 
 
 #for PCL And libraries
-git clone https://github.com/PointCloudLibrary/pcl.git
-cd ~/pcl
-mkdir release
-cd release
-cmake -DCMAKE_BUILD_TYPE=None ..
-echo 'SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")' >> ~/pcl/CMakeLists.txt
-make -j$numcores && sudo make install -j$numcores
+#git clone https://github.com/PointCloudLibrary/pcl.git
+#cd ~/pcl
+#mkdir release
+#cd release
+#cmake -DCMAKE_BUILD_TYPE=None ..
+#echo 'SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")' >> ~/pcl/CMakeLists.txt
+#make -j$numcores && sudo make install -j$numcores
 
 #Delete vim and recompile from source
 #sudo apt-get install -y libncurses5-dev libgnome2-dev libgnomeui-dev \
