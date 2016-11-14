@@ -2,12 +2,24 @@
 echo "here we go..."
 numcores="$(nproc)"
 #some basics:
-sudo apt-get install -y --ignore-missing git xclip chromium-browser flashplugin-installer curl
+sudo apt-get install -y git xclip chromium-browser flashplugin-installer curl
 
-sudo apt-get install -y --ignore-missing g++ cmake cmake-curses-gui cmake-qt-gui doxygen mpi-default-dev openmpi-bin openmpi-common  libflann* libflann-dev vim-gtk vlc libarmadillo-dev libcgal-dev libcgal-qt5-dev
-sudo apt-get install -y --ignore-missing libeigen3-dev libboost-all-dev libvtk6.2-qt libvtk6.2 libvtk6-dev libqhull*
-sudo apt-get install -y --ignore-missing  libusb-dev install libgtest-dev git-core freeglut3-dev pkg-config build-essential libxmu-dev libxi-dev libusb-1.0-0-dev graphviz mono-complete
-sudo apt-get install -y --ignore-missing qt-sdk openjdk-8-jdk openjdk-8-jre screen byobu python-pip python-dev python-wstool libgsl-dev python-pip ntpdate texmaker vim vim-gtk
+#Pixhawk 4 Shit
+sudo usermod -a -G dialout $USER
+sudo add-apt-repository ppa:george-edison55/cmake-3.x -y
+
+#For color coded
+sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+
+
+for i in  g++ cmake cmake-curses-gui cmake-qt-gui doxygen mpi-default-dev openmpi-bin openmpi-common  libflann* vim vim-gtk vlc libarmadillo* \
+libcgal-dev libcgal-qt* libeigen3-dev libboost-all-dev libvtk6* libqhull* libusb-dev install libgtest-dev git-core freeglut3-dev pkg-config build-essential libxmu-dev \
+libxi-dev libusb-1.0-0-dev graphviz mono-complete qt-sdk openjdk-8-jdk openjdk-8-jre screen byobu python-pip python-dev python-wstool libgsl-dev python-pip ntpdate texmaker vim vim-gtk \
+ant protobuf-compiler libeigen3-dev libopencv-dev openjdk-8-jdk openjdk-8-jre clang-3.5 lldb-3.5 exuberant-ctags libclang-dev xz-utils libpthread-workqueue-dev liblua5.2-dev lua5.2 libncurses-dev \
+python-argparse git-core wget zip python-empy qtcreator cmake build-essential genromfs g++-4.9; do
+sudo apt-get install -y $i
+done
 
 if [ ! -f ~/.ssh/id_rsa.pub ]; then
 ssh-keygen -t rsa -b 4096 -C "logan_ellis@me.com"
@@ -73,8 +85,7 @@ git clone https://github.com/PointCloudLibrary/pcl.git
 #sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
 #sudo update-alternatives --set vi /usr/bin/vim
 
-#Exuberant Ctags for vim tagbar
-sudo apt install -y exuberant-ctags
+
 
 #All dat Vim Goodness
 if [[ ! -d ~/fzf ]]; then
@@ -93,11 +104,7 @@ cd ~/.vim/plugged/YouCompleteMe
 ./install.py --clang-completer
 cd ~/
 
-#For color coded
-sudo apt-get install -y --ignore-missing libclang-dev xz-utils libpthread-workqueue-dev liblua5.2-dev lua5.2 libncurses-dev
-sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get install -y g++-4.9
+
 
 cd ~/.vim/plugged/color_coded
 mkdir build && cd build
@@ -106,21 +113,17 @@ make -j$numcores && sudo make -j$numcores install
 make clean && make clean_clang
 #end color_coded
 
-#Pixhawk 4 Shit
-sudo usermod -a -G dialout $USER
-sudo add-apt-repository ppa:george-edison55/cmake-3.x -y
-sudo apt-get update
-sudo apt-get install -y --ignore-missing python-argparse git-core wget zip \
-python-empy qtcreator cmake build-essential genromfs -y
 
+sudo apt-get update
 
 # simulation tools
-sudo apt-get install -y --ignore-missing ant protobuf-compiler libeigen3-dev libopencv-dev openjdk-8-jdk openjdk-8-jre clang-3.5 lldb-3.5 -y
 sudo apt-get remove modemmanager
 
 #Sphinx for docs
 pip install sphinx sphinx-autobuild
+if [[ ! -d ~/.byobu ]];then
 mkdir ~/.byobu
+fi
 cp ~/osInstallScripts/tmux.conf ~/.byobu/.tmux.conf
 cp ~/osInstallScripts/bash_aliases ~/.bash_aliases
 echo "source ~/.bash_aliases" >> ~/.bashrc
