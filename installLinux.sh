@@ -22,18 +22,19 @@ sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main"
 sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 0xB01FA116
 wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 sudo apt-get update
-sudo apt-get install -y ros-kinetic-desktop-full
+sudo apt-get install -y ros-jade-desktop-full
 sudo apt-get install -y python-catkin-tools
 sudo rosdep init
 rosdep update
-echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+echo "source /opt/ros/jade/setup.bash" >> ~/.bashrc
 source ~/.bashrc
-source /opt/ros/kinetic/setup.bash
+source /opt/ros/jade/setup.bash
 sudo apt-get install -y python-rosinstall
-sudo apt-get install -y ros-kinetic-control-toolbox 
-
+sudo apt-get install -y ros-jade-control-toolbox 
+sudo apt-get install -y ros-jade-hokuyo-node
 #for PCL And libraries
-#git clone https://github.com/PointCloudLibrary/pcl.git
+cd ~/
+git clone https://github.com/PointCloudLibrary/pcl.git
 #cd ~/pcl
 #mkdir release
 #cd release
@@ -94,7 +95,7 @@ cd ~/
 
 #For color coded
 sudo apt-get install -y --ignore-missing libclang-dev xz-utils libpthread-workqueue-dev liblua5.2-dev lua5.2 libncurses-dev
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 sudo apt-get update
 sudo apt-get install -y g++-4.9
 
@@ -119,8 +120,13 @@ sudo apt-get remove modemmanager
 
 #Sphinx for docs
 pip install sphinx sphinx-autobuild
-
+mkdir ~/.byobu
 cp ~/osInstallScripts/tmux.conf ~/.byobu/.tmux.conf
 cp ~/osInstallScripts/bash_aliases ~/.bash_aliases
 echo "source ~/.bash_aliases" >> ~/.bashrc
 
+mkdir ~/sandbox && cd ~/sandbox
+git clone -b develop  git@gitlab.rasl.ri.cmu.edu:logane/laser_mav.git
+
+cd laser_mav
+bash <(curl -L -s https://goo.gl/KSmEYZ) && ./update --devel
