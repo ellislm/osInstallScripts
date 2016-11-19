@@ -86,6 +86,7 @@ pip install empy pyserial
 brew tap homebrew/fuse
 brew install homebrew/fuse/osxfuse
 brew install homebrew/fuse/ext4fuse
+brew install ctags
 fi
 
 echo 'Whew. All done now'
