@@ -1,7 +1,7 @@
 #Start ROS Install
 #curl https://raw.githubusercontent.com/mikepurvis/ros-install-osx/master/install | bash
 #End ROS
-if [[ ! $* *--pt2* ]]
+if [[ ! $* == *--pt2* ]]; then
 read -n1 -rsp "Before we get started, make sure XCode is installed. Also install XQuarts, relog, and run again. Press space when it is" key
 git config --global user.email "logan_ellis@me.com"
 git config --global user.name "loganE"
@@ -14,11 +14,6 @@ read -n1 -rsp "Go to github, and paste SSH key. Press space to continue install.
 
 echo "Installing ROS Now"
 cd ~/
-
-if [[ ! -d ~/ros-install-osx ]]; then
-git clone http://www.github.com/loganE/ros-install-osx
-fi
-cd ros-install-osx
 
 chmod +x install && ./install
 
@@ -70,7 +65,10 @@ if [[ -d ~/.byobu ]]; then
 fi
 
 cp ~/osInstallScripts/tmux.conf ~/.byobu/.tmux.conf
-cp ~/osInstallScripts/bash_aliases ~/.bash_aliases
+if [[ -f ~/.bash_aliases ]]; then
+  rm -rf ~/.bash_aliases
+fi
+ln -s ~/osInstallScripts/bash_aliases ~/.bash_aliases
 echo "source ~/.bash_aliases" >> ~/.bash_profile
 
 #PX4 Install
@@ -86,7 +84,15 @@ pip install empy pyserial
 brew tap homebrew/fuse
 brew install homebrew/fuse/osxfuse
 brew install homebrew/fuse/ext4fuse
-brew install ctags
+
+#random
+brew tap d12frosted/emacs-plus
+brew install emacs-plus
+brew linkapps emacs-plus
+
+brew install ctags gdb
+
+echo "set startup-with-shell off" >> ~/.gdbinit
 fi
 
 echo 'Whew. All done now'
